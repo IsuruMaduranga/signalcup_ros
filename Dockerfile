@@ -1,9 +1,5 @@
 FROM ros:melodic-ros-base-bionic
 
-RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-
-RUN source ~/.bashrc
-
 RUN apt-get install -y ros-melodic-rosbridge-server
 
 RUN pip install rospkg==1.2.3
