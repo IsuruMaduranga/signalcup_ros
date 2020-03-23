@@ -1,10 +1,6 @@
 FROM ubuntu:bionic
 
-RUN echo 'Etc/UTC' > /etc/timezone && \
-    ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
-    apt-get update && apt-get install -q -y tzdata && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt update && apt install -y --no-install-recommends \
     dirmngr \
     gnupg2 \
     && rm -rf /var/lib/apt/lists/*
@@ -13,12 +9,9 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
 
 RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
-RUN apt-get update && apt-get install -y \
-    ros-melodic-ros-base=1.4.1-0* \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install ros-melodic-ros-base
 
-RUN rosdep init \
-    && rosdep update
+RUN rosdep init && rosdep update
 
 RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 
