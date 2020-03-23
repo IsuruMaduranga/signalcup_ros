@@ -1,0 +1,9 @@
+<launch>
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+     <arg name="port" value="8080"/>
+     <arg name="address" value="getdata"/>
+  </include>
+  <node name="imagePub" pkg="getdata" type="ImagePub.py" />
+  <node name="HandleBag" pkg="getdata" type="play_bag.py" />
+
+</launch>
