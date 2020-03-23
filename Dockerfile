@@ -1,10 +1,16 @@
 FROM ros:melodic-ros-base-bionic
 
+RUN apt update
+
 RUN apt-get install -y ros-melodic-rosbridge-server
+
+RUN apt install -y python-pip
 
 RUN pip install rospkg==1.2.3
 
 RUN pip install scikit-Image==0.14.5
+
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash"
 
 WORKDIR /signalcup_ws/src
 
@@ -18,11 +24,13 @@ COPY . .
 
 WORKDIR /signalcup_ws
 
-RUN catkin_make
+RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; cd /signalcup_ws ; catkin_make'
 
-WORKDIR /signalcup_ws/devel
+WORKDIR /
 
-CMD source setup.bash
+COPY ./entry.sh /
 
-ENTRYPOINT ["roslaunch getdata getdata.launch"]
+ENTRYPOINT ["/entry.sh"]
+
+CMD roslaunch getdata getdata.launch
 
